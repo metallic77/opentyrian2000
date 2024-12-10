@@ -316,6 +316,7 @@ void JE_showVGA(void)
 	scale_and_flip(VGAScreen); 
 }
 
+
 static void calc_dst_render_rect(SDL_Surface *const src_surface, SDL_Rect *const dst_rect)
 {
 	// Decides how the logical output texture (after software scaling applied) will fit
@@ -356,8 +357,8 @@ static void calc_dst_render_rect(SDL_Surface *const src_surface, SDL_Rect *const
 		}
 		break;
 	case SCALE_ASPECT_4_3:
-		maxh_width = win_h * (4.f / 3.f);
-		maxw_height = win_w * (3.f / 4.f);
+		maxh_width = win_h * (3.f / 4.f);
+		maxw_height = win_w * (4.f / 3.f);
 
 		if (maxh_width > win_w)
 		{
@@ -379,6 +380,7 @@ static void calc_dst_render_rect(SDL_Surface *const src_surface, SDL_Rect *const
 	dst_rect->y = (win_h - dst_rect->h) / 2;
 }
 
+
 static void scale_and_flip(SDL_Surface *src_surface)
 {
 	assert(src_surface->format->BitsPerPixel == 8);
@@ -393,7 +395,12 @@ static void scale_and_flip(SDL_Surface *src_surface)
 	// Clear the window and blit the output texture to it
 	SDL_SetRenderDrawColor(main_window_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(main_window_renderer);
-	SDL_RenderCopy(main_window_renderer, main_window_texture, NULL, &dst_rect);
+	SDL_RenderSetScale(main_window_renderer, 1.0, 1.0);
+
+
+	//SDL_RenderCopy(main_window_renderer, main_window_texture, NULL, &dst_rect);
+	SDL_RenderCopyEx(main_window_renderer, main_window_texture, NULL, &dst_rect, 270, NULL, SDL_FLIP_NONE);
+
 	SDL_RenderPresent(main_window_renderer);
 
 	// Save output rect to be used by mouse functions
