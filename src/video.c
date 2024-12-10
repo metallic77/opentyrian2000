@@ -357,8 +357,8 @@ static void calc_dst_render_rect(SDL_Surface *const src_surface, SDL_Rect *const
 		}
 		break;
 	case SCALE_ASPECT_4_3:
-		maxh_width = win_h * (3.f / 4.f);
-		maxw_height = win_w * (4.f / 3.f);
+		maxh_width = win_h * (4.f / 3.f);
+		maxw_height = win_w * (3.f / 4.f);
 
 		if (maxh_width > win_w)
 		{
